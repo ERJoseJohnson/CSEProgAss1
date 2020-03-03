@@ -278,6 +278,7 @@ int shellExecuteInput(char **args)
       {
         int childStatus;
         pid_t childReturnVal = waitpid(childAddress, &childStatus, WUNTRACED);
+        // printf("Fork works, waiting for child!\n");
         return childReturnVal;
       }
     }
@@ -299,7 +300,7 @@ char *shellReadLine(void)
   // 3. Fetch an entire line from input stream stdin using getline() function. getline() will store user input onto the memory location allocated in (1)
   // 4. Return the char*
 
-  char *inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
+  inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
   if (inputMemory == NULL)
   {
     printf("Unable to allocate memory");
@@ -326,7 +327,7 @@ char **shellTokenizeInput(char *line)
   // 3. Tokenize the *line using strtok() function
   // 4. Return the char **
 
-  char **argAddresses = malloc(sizeof(char *) * SHELL_BUFFERSIZE);
+  argAddresses = malloc(sizeof(char *) * SHELL_BUFFERSIZE);
   if (argAddresses != NULL)
   {
     int index = 0;
@@ -377,8 +378,8 @@ void shellLoop(void)
 int main(int argc, char **argv)
 {
 
-  //free(inputMemory);
-  //free(argAddresses);
+  free(inputMemory);
+  free(argAddresses);
   printf("Shell Run successful. Running now: \n");
 
   char *line = shellReadLine();
