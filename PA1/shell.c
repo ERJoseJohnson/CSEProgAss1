@@ -332,7 +332,7 @@ int main(int argc, char **argv)
 
   // Run command loop
   //shellLoop();
-
+  // this is a useles commet
   char *line = shellReadLine();
   printf("The fetched line is : %s \n", line);
   return 0;
