@@ -253,7 +253,36 @@ int shellExecuteInput(char **args)
   // 5. For the parent process, wait for the child process to complete and fetch the child's return value.
   // 6. Return the child's return value to the caller of shellExecuteInput
   // 7. If args[0] is not in builtin_command, print out an error message to tell the user that command doesn't exist and return 1
-
+  if (args[0] == NULL)
+  {
+    printf("Empty command is entered");
+    return 1;
+  }
+  int maxIterations = numOfBuiltinFunctions();
+  for (int i = 4; i < maxIterations; i++)
+  {
+    if ((strcmp(args[0], builtin_commands[i])) == 0)
+    {
+      pid_t childAddress = fork();
+      if (childAddress < 0)
+      {
+        printf("CAUTION: Fork is unsuccessful");
+        exit(1);
+      }
+      else if (childAddress == 0)
+      {
+        builtin_commandFunc[i](args);
+        exit(1);
+      }
+      else if (childAddress > 0)
+      {
+        int childStatus;
+        pid_t childReturnVal = waitpid(childAddress, &childStatus, WUNTRACED);
+        return childReturnVal;
+      }
+    }
+  }
+  printf("Command does not exist");
   return 1;
 }
 
@@ -270,7 +299,7 @@ char *shellReadLine(void)
   // 3. Fetch an entire line from input stream stdin using getline() function. getline() will store user input onto the memory location allocated in (1)
   // 4. Return the char*
 
-  inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
+  char *inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
   if (inputMemory == NULL)
   {
     printf("Unable to allocate memory");
@@ -297,7 +326,7 @@ char **shellTokenizeInput(char *line)
   // 3. Tokenize the *line using strtok() function
   // 4. Return the char **
 
-  argAddresses = malloc(sizeof(char *) * SHELL_BUFFERSIZE);
+  char **argAddresses = malloc(sizeof(char *) * SHELL_BUFFERSIZE);
   if (argAddresses != NULL)
   {
     int index = 0;
@@ -348,6 +377,8 @@ void shellLoop(void)
 int main(int argc, char **argv)
 {
 
+  //free(inputMemory);
+  //free(argAddresses);
   printf("Shell Run successful. Running now: \n");
 
   char *line = shellReadLine();
@@ -356,6 +387,8 @@ int main(int argc, char **argv)
   char **args = shellTokenizeInput(line);
   printf("The first token is %s \n", args[0]);
   printf("The second token is %s \n", args[1]);
+
+  shellExecuteInput(args);
 
   return 0;
 }
