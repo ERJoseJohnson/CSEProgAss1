@@ -297,7 +297,27 @@ char **shellTokenizeInput(char *line)
   // 3. Tokenize the *line using strtok() function
   // 4. Return the char **
 
-  return NULL;
+  argAddresses = malloc(sizeof(char *) * SHELL_BUFFERSIZE);
+  if (argAddresses != NULL)
+  {
+    int index = 0;
+    char *token = strtok(line, SHELL_INPUT_DELIM);
+
+    while (token != NULL)
+    {
+      argAddresses[index] = token;
+      index++;
+      token = strtok(NULL, SHELL_INPUT_DELIM);
+    }
+
+    argAddresses[index] = NULL;
+  }
+  else
+  {
+    printf("The memory was not assigned properly");
+  }
+
+  return argAddresses;
 }
 
 /**
@@ -330,10 +350,12 @@ int main(int argc, char **argv)
 
   printf("Shell Run successful. Running now: \n");
 
-  // Run command loop
-  //shellLoop();
-  // this is a useles commet
   char *line = shellReadLine();
   printf("The fetched line is : %s \n", line);
+
+  char **args = shellTokenizeInput(line);
+  printf("The first token is %s \n", args[0]);
+  printf("The second token is %s \n", args[1]);
+
   return 0;
 }

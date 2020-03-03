@@ -41,6 +41,7 @@ int numOfBuiltinFunctions()
 Variables that I declared to be persistent
 */
 char *inputMemory;
+char **argAddresses;
 
 /*
 The fundamental functions of the shell interface
