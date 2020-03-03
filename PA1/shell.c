@@ -105,7 +105,6 @@ int shellSummond(char **args)
   return 1;
 }
 
-
 /**
  * Allows one to check daemon process
  * 
@@ -174,7 +173,6 @@ int shellExit(char **args)
 {
   return 0;
 }
-
 
 /*
   Builtin function implementations.
@@ -272,7 +270,18 @@ char *shellReadLine(void)
   // 3. Fetch an entire line from input stream stdin using getline() function. getline() will store user input onto the memory location allocated in (1)
   // 4. Return the char*
 
-  return NULL;
+  inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
+  if (inputMemory == NULL)
+  {
+    printf("Unable to allocate memory");
+    exit(1);
+  }
+  else
+  {
+    size_t inputChar = SHELL_BUFFERSIZE;
+    getline(&inputMemory, &inputChar, stdin);
+  }
+  return inputMemory;
 }
 
 /**
@@ -302,9 +311,8 @@ void shellLoop(void)
   char **args; // to tokenize them as arguments separated by spaces
   int status;  // to tell the shell program whether to terminate shell or not
 
-
   /** TASK 5 **/
-  //write a loop where you do the following: 
+  //write a loop where you do the following:
 
   // 1. print the message prompt
   // 2. clear the buffer and move the output to the console using fflush
@@ -314,9 +322,7 @@ void shellLoop(void)
 
   // 6. free memory location containing the strings of characters
   // 7. free memory location containing char* to the first letter of each word in the input string
-  // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell. 
-
-
+  // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell.
 }
 
 int main(int argc, char **argv)
@@ -325,7 +331,9 @@ int main(int argc, char **argv)
   printf("Shell Run successful. Running now: \n");
 
   // Run command loop
-  shellLoop();
+  //shellLoop();
 
+  char *line = shellReadLine();
+  printf("The fetched line is : %s \n", line);
   return 0;
 }
