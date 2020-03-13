@@ -292,31 +292,43 @@ int shellExecuteInput(char **args)
     return 1;
   }
   int maxIterations = numOfBuiltinFunctions();
-  for (int i = 4; i < maxIterations; i++)
+  for (int i = 0; i < maxIterations; i++)
   {
-    if ((strcmp(args[0], builtin_commands[i])) == 0)
+    if (i < 4)
     {
-      pid_t childAddress = fork();
-      if (childAddress < 0)
+      if ((strcmp(args[0], builtin_commands[i])) == 0)
       {
-        printf("CAUTION: Fork is unsuccessful");
-        exit(1);
+        return builtin_commandFunc[i](args);
+        //return 1;
+        //exit(1);
       }
-      else if (childAddress == 0)
+    }
+    else
+    {
+      if ((strcmp(args[0], builtin_commands[i])) == 0)
       {
-        builtin_commandFunc[i](args);
-        exit(1);
-      }
-      else if (childAddress > 0)
-      {
-        int childStatus;
-        pid_t childReturnVal = waitpid(childAddress, &childStatus, WUNTRACED);
-        // printf("Fork works, waiting for child!\n");
-        return childReturnVal;
+        pid_t childAddress = fork();
+        if (childAddress < 0)
+        {
+          printf("CAUTION: Fork is unsuccessful");
+          exit(1);
+        }
+        else if (childAddress == 0)
+        {
+          builtin_commandFunc[i](args);
+          exit(1);
+        }
+        else if (childAddress > 0)
+        {
+          int childStatus;
+          pid_t childReturnVal = waitpid(childAddress, &childStatus, WUNTRACED);
+          // printf("Fork works, waiting for child!\n");
+          return childReturnVal;
+        }
       }
     }
   }
-  printf("Command does not exist");
+  printf("Command does not exist \n");
   return 1;
 }
 
