@@ -43,6 +43,7 @@ int shellCountLine_code(char **args)
     }
 
     fclose(fp);
+    free(tempMem);
     printf("There are %d lines in this file \n", lineCount);
     return 1;
 }
