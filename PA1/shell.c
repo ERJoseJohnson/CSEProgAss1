@@ -390,9 +390,9 @@ char **shellTokenizeInput(char *line)
 void shellLoop(void)
 {
   //instantiate local variables
-  char *line;  // to accept the line of string from user
-  char **args; // to tokenize them as arguments separated by spaces
-  int status;  // to tell the shell program whether to terminate shell or not
+  char *line;     // to accept the line of string from user
+  char **args;    // to tokenize them as arguments separated by spaces
+  int status = 1; // to tell the shell program whether to terminate shell or not
 
   /** TASK 5 **/
   //write a loop where you do the following:
@@ -406,23 +406,25 @@ void shellLoop(void)
   // 6. free memory location containing the strings of characters
   // 7. free memory location containing char* to the first letter of each word in the input string
   // 8. check if shellExecuteInput returns 1. If yes, loop back to Step 1 and prompt user with new input. Otherwise, exit the shell.
+  while (status)
+  {
+    printf("Give your command: \n");
+    fflush(stdout);
+    line = shellReadLine();
+    args = shellTokenizeInput(line);
+    status = shellExecuteInput(args);
+    //printf("%d", status);
+
+    free(inputMemory);
+    free(argAddresses);
+  }
+  exit(0);
 }
 
 int main(int argc, char **argv)
 {
 
-  free(inputMemory);
-  free(argAddresses);
-  printf("Shell Run successful. Running now: \n");
-
-  char *line = shellReadLine();
-  printf("The fetched line is : %s \n", line);
-
-  char **args = shellTokenizeInput(line);
-  printf("The first token is %s \n", args[0]);
-  printf("The second token is %s \n", args[1]);
-
-  shellExecuteInput(args);
+  shellLoop();
 
   return 0;
 }
