@@ -16,6 +16,34 @@ int shellCountLine_code(char **args)
     // 7. Print out how many lines are there in this particular filename
     // 8. Return 1, to exit program
 
+    int lineCount = 0;
+    int lineStatus;
+
+    char *tempMem = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
+    size_t lineChar = SHELL_BUFFERSIZE;
+    //char path[256] = "/home/josejohnson/ProgrammingAssignment1/PA1/";
+    //strcat(path, args[1]);
+
+    // FILE *fp = fopen(path, "r");
+    FILE *fp = fopen(args[1], "r");
+
+    if (fp == NULL)
+    {
+        printf("The file did not open properly \n");
+        return 0;
+    }
+
+    lineStatus = getline(&tempMem, &lineChar, fp);
+    while (lineStatus > 0)
+    {
+        // printf("Number of char %d \n", lineStatus);
+        lineCount++;
+        // printf("LineCount is %d \n", lineCount);
+        lineStatus = getline(&tempMem, &lineChar, fp);
+    }
+
+    fclose(fp);
+    printf("There are %d lines in this file \n", lineCount);
     return 1;
 }
 
