@@ -13,7 +13,7 @@
 #include "shellPrograms.h"
 
 //TODO: change to appropriate path
-char *path = "/Users/natalie_agus/Dropbox/50.005 Computer System Engineering/2020/PA1 Makeshell Daemon/PA1/logfile_test.txt";
+char *path = "/home/josejohnson/ProgrammingAssignment1/PA1/daemonLogs/logfile_test.txt";
 
 /*This function summons a daemon process out of the current process*/
 static int create_daemon()
@@ -31,6 +31,48 @@ static int create_daemon()
     // 7. Change working directory to root
     // 8. Close all open file descriptors using sysconf(_SC_OPEN_MAX) and redirect fd 0,1,2 to /dev/null
     // 9. Return to main
+
+    pid_t intermediatePID = fork();
+    if (intermediatePID < 0)
+    {
+        printf("Cannot even create intermediate process \n");
+        exit(1);
+    }
+    else if (intermediatePID == 0)
+    {
+        setsid();
+        signal(SIGCHLD, SIG_IGN);
+        signal(SIGHUP, SIG_IGN);
+
+        pid_t daemonPID = fork();
+        if (daemonPID < 0)
+        {
+            printf("Cannot create Daemon process \n");
+            exit(1);
+        }
+        else if (daemonPID == 0)
+        {
+            umask(0);
+            chdir('/');
+
+            int x;
+            for (x = sysconf(_SC_OPEN_MAX); x >= 0; x--)
+            {
+                close(x);
+            }
+            stdin = open("/dev/null", O_RDWR);
+            stdout = dup(0);
+            stderr = dup(0);
+        }
+        else if (daemonPID > 0)
+        {
+            exit(1);
+        }
+    }
+    else if (intermediatePID > 0)
+    {
+        exit(1);
+    }
 
     return 1;
 }
