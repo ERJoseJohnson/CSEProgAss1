@@ -311,6 +311,7 @@ int shellExecuteInput(char **args)
         if (childAddress < 0)
         {
           printf("CAUTION: Fork is unsuccessful");
+          return 1;
           //exit(1);
         }
         else if (childAddress == 0)
@@ -348,7 +349,7 @@ char *shellReadLine(void)
   inputMemory = (char *)malloc(sizeof(char) * SHELL_BUFFERSIZE);
   if (inputMemory == NULL)
   {
-    printf("Unable to allocate memory");
+    printf("Unable to allocate memory \n");
     exit(1);
   }
   else
@@ -389,7 +390,7 @@ char **shellTokenizeInput(char *line)
   }
   else
   {
-    printf("The memory was not assigned properly");
+    printf("The memory was not assigned properly \n");
   }
 
   return argAddresses;
