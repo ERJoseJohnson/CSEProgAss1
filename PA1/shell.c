@@ -14,10 +14,10 @@ int shellFind(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellFind if execvp fails to allow loop to continue
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/find", args);
+  int returnVal = execvp("./shellPrograms/find", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
 
   return 1;
@@ -37,10 +37,10 @@ int shellDisplayFile(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDisplayFile if execvp fails to allow loop to continue
 
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/display", args);
+  int returnVal = execvp("./shellPrograms/display", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
   return 1;
 }
@@ -60,10 +60,10 @@ int shellListDirAll(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDirAll if execvp fails to allow loop to continue
 
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/listdirall", args);
+  int returnVal = execvp("./shellPrograms/listdirall", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
   return 1;
 }
@@ -81,10 +81,10 @@ int shellListDir(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellListDir
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/listdir", args);
+  int returnVal = execvp("./shellPrograms/listdir", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
   return 1;
 }
@@ -104,10 +104,10 @@ int shellCountLine(char **args)
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCountLine if execvp fails to allow loop to continue
 
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/countline", args);
+  int returnVal = execvp("./shellPrograms/countline", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
 
   return 1;
@@ -126,10 +126,10 @@ int shellSummond(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellDaemonize if execvp fails to allow loop to continue
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/summond", args);
+  int returnVal = execvp("./shellPrograms/summond", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
   return 1;
 }
@@ -148,10 +148,10 @@ int shellCheckDaemon(char **args)
   // 3. A successful execvp never returns, while a failed execvp returns -1
   // 4. Print some kind of error message if it returns -1
   // 5. return 1 to the caller of shellCheckDaemon if execvp fails to allow loop to continue
-  int returnVal = execvp("/home/josejohnson/ProgrammingAssignment1/PA1/shellPrograms/checkdaemon", args);
+  int returnVal = execvp("./shellPrograms/checkdaemon", args);
   if (returnVal < 0)
   {
-    printf("It did not work!\n");
+    printf("Sorry this commad did not work!\n");
   }
   return 1;
 }
@@ -311,7 +311,7 @@ int shellExecuteInput(char **args)
         if (childAddress < 0)
         {
           printf("CAUTION: Fork is unsuccessful");
-          exit(1);
+          //exit(1);
         }
         else if (childAddress == 0)
         {

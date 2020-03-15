@@ -1,3 +1,1 @@
-josejoh+  2144     1  2143  2143  0 19:49 ?        00:00:00 summond
-josejoh+  2200     1  2199  2199  0 19:49 ?        00:00:00 summond
-josejoh+  2246  2244  2242   746  0 19:50 pts/0    00:00:00 grep summond
+josejoh+  1314  1312  1310  1050  0 14:52 pts/0    00:00:00 grep summond
